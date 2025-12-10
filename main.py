@@ -7,5 +7,5 @@ def main():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Conway's Game of Life")
-    parser.add_argument("")
+    # parser.add_argument("")
     main()

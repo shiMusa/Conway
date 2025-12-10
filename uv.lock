@@ -80,6 +80,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "conway" },
     { name = "mypy" },
     { name = "pdoc" },
     { name = "pre-commit" },
@@ -95,6 +96,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "conway", virtual = "." },
     { name = "mypy", specifier = ">=1.19.0" },
     { name = "pdoc", specifier = ">=16.0.0" },
     { name = "pre-commit", specifier = ">=4.5.0" },
