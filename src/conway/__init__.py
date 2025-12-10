@@ -4,3 +4,5 @@
 A python implementation.
 
 """
+
+from .core import simulate

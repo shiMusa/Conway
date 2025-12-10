@@ -1,7 +1,7 @@
 import numpy as np
 import itertools
 
-from conway.core import simulation_step
+from src.conway.core import simulation_step
 
 
 # check the death of a cell at all possible positions in a 4x4 grid
