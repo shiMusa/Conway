@@ -1,11 +1,16 @@
 [project]
 name = "conway"
 version = "0.1.0"
-description = "Add your description here"
+description = "Conway's Game of Life"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "black>=25.12.0",
     "numpy>=2.3.5",
     "pydantic>=2.12.5",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
 ]
