@@ -1,0 +1,1 @@
+cd .. && uv run black src tests

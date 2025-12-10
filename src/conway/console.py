@@ -5,7 +5,7 @@ def game_to_string(data: np.ndarray) -> str:
     (rows, cols) = data.shape
 
     symbols = [" ", "▀", "▄", "█"]
-    game_str = "┌" + cols * "─" + "┐\n"
+    game_str: str = "┌" + cols * "─" + "┐\n"
 
     for r in range(rows // 2):
         game_str += "│"
@@ -25,5 +25,5 @@ def game_to_string(data: np.ndarray) -> str:
     return game_str
 
 
-def print_game(data: np.ndarray):
+def print_game(data: np.ndarray) -> None:
     print(game_to_string(data))

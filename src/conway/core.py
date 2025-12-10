@@ -2,7 +2,7 @@ from typing import Generator
 import numpy as np
 
 
-def simulation_step(flip: np.ndarray, flop: np.ndarray):
+def simulation_step(flip: np.ndarray, flop: np.ndarray) -> None:
     neighbors = np.zeros_like(flip)
 
     n_rows = flip.shape[0]

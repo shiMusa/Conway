@@ -12,7 +12,12 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "mypy>=1.19.0",
     "pdoc>=16.0.0",
     "pre-commit>=4.5.0",
     "pytest>=9.0.2",
 ]
+
+[tool.mypy]
+namespace_packages = true
+explicit_package_bases = true

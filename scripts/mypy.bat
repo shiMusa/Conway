@@ -1,0 +1,1 @@
+cd .. && uv run mypy src tests --strict

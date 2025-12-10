@@ -4,3 +4,11 @@ repos:
     hooks:
       - id: black
         language_version: python3.13  # Match your Python version
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.19.0  # Use the latest mypy version
+    hooks:
+      - id: mypy
+        # Optional: Add arguments to mypy
+        args: [--strict, --ignore-missing-imports]
+        # Optional: Only run mypy on specific files
+        files: ^(src/|tests/)
