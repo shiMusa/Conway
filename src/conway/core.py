@@ -3,8 +3,8 @@ import numpy as np
 
 class GameOfLife:
     def __init__(self, start: np.ndarray):
-        self._neighbors = np.zeros_like(start)
-        self.state = start.copy()
+        self.state = np.array(start.copy(), dtype=np.uint8)
+        self._neighbors = np.zeros_like(self.state)
         self._flop = np.zeros_like(self.state)
 
     def step(self) -> bool:
@@ -55,3 +55,26 @@ class GameOfLife:
         else:
             while self.step():
                 ...
+
+    def __str__(self) -> str:
+        (rows, cols) = self.state.shape
+
+        symbols = [" ", "▀", "▄", "█"]
+        game_str: str = "┌" + cols * "─" + "┐\n"
+
+        for r in range(rows // 2):
+            game_str += "│"
+            for c in range(cols):
+                index = int(self.state[r * 2, c] + 2 * self.state[r * 2 + 1, c])
+                game_str += symbols[index]
+            game_str += "│\n"
+
+        if rows % 2 == 1:
+            game_str += "│"
+            for c in range(cols):
+                index = int(self.state[-1, c])
+                game_str += symbols[index]
+            game_str += "│\n"
+
+        game_str += "└" + cols * "─" + "┘\n"
+        return game_str
