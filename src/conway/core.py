@@ -1,43 +1,80 @@
-from typing import Generator
 import numpy as np
 
 
-def simulation_step(flip: np.ndarray, flop: np.ndarray) -> None:
-    neighbors = np.zeros_like(flip)
+class GameOfLife:
+    def __init__(self, start: np.ndarray):
+        self.state = np.array(start.copy(), dtype=np.uint8)
+        self._neighbors = np.zeros_like(self.state)
+        self._flop = np.zeros_like(self.state)
 
-    neighbors += np.roll(flip, -1, axis=0)  # bottom neighbors
-    neighbors += np.roll(flip, 1, axis=0)  # top neighbors
-    neighbors += np.roll(flip, -1, axis=1)  # right neighbors
-    neighbors += np.roll(flip, 1, axis=1)  # left neighbors
+    def step(self) -> bool:
+        self._neighbors.fill(0)
 
-    neighbors += np.roll(flip, (-1, -1), axis=(0, 1))  # bottom right neighbors
-    neighbors += np.roll(flip, (-1, 1), axis=(0, 1))  # bottom left neighbors
-    neighbors += np.roll(flip, (1, 1), axis=(0, 1))  # top left  neighbors
-    neighbors += np.roll(flip, (1, -1), axis=(0, 1))  # top right neighbors
+        self._neighbors += np.roll(self.state, -1, axis=0)  # bottom neighbors
+        self._neighbors += np.roll(self.state, 1, axis=0)  # top neighbors
+        self._neighbors += np.roll(self.state, -1, axis=1)  # right neighbors
+        self._neighbors += np.roll(self.state, 1, axis=1)  # left neighbors
 
-    # each cell in `flop` now containes the number of neighbors at that site.
-    # Conway's Game of Life rules are the following:
-    # 1. Live cell with #neighbors < 2 dies
-    # 2. Live cell with #neighbors == 2, 3 survives
-    # 3. Live cell with #neighbors > 3 dies
-    # 4. Dead cell with #neighbors == 3 comes to life
+        self._neighbors += np.roll(
+            self.state, (-1, -1), axis=(0, 1)
+        )  # bottom right neighbors
+        self._neighbors += np.roll(
+            self.state, (-1, 1), axis=(0, 1)
+        )  # bottom left neighbors
+        self._neighbors += np.roll(
+            self.state, (1, 1), axis=(0, 1)
+        )  # top left  neighbors
+        self._neighbors += np.roll(
+            self.state, (1, -1), axis=(0, 1)
+        )  # top right neighbors
 
-    flop.fill(0)
-    flop[(neighbors < 2) & (flip > 0)] = 0
-    flop[((neighbors == 2) | (neighbors == 3)) & (flip > 0)] = 1
-    flop[(neighbors > 3) & (flip > 0)] = 0
-    flop[(neighbors == 3) & (flip == 0)] = 1
+        # each cell in `flop` now containes the number of neighbors at that site.
+        # Conway's Game of Life rules are the following:
+        # 1. Live cell with #neighbors < 2 dies
+        # 2. Live cell with #neighbors == 2, 3 survives
+        # 3. Live cell with #neighbors > 3 dies
+        # 4. Dead cell with #neighbors == 3 comes to life
 
+        alive = self.state > 0
 
-def simulate(
-    initial_state: np.ndarray, max_iterations: int = 100
-) -> Generator[np.ndarray, None, None]:
-    flip = initial_state
-    flop = np.zeros_like(initial_state)
+        self._flop.fill(0)
+        self._flop[(self._neighbors < 2) & alive] = 0
+        self._flop[((self._neighbors == 2) | (self._neighbors == 3)) & alive] = 1
+        self._flop[(self._neighbors > 3) & alive] = 0
+        self._flop[(self._neighbors == 3) & ~alive] = 1
 
-    for _ in range(max_iterations):
-        simulation_step(flip, flop)
-        flip = flop
-        yield flip
-        if flip.sum().sum() == 0:
-            break
+        self.state, self._flop = self._flop, self.state
+
+        return self.state.sum().sum() != 0
+
+    def simulate(self, max_iterations: int | None = None) -> None:
+        if max_iterations is not None:
+            for _ in range(max_iterations):
+                if not self.step():
+                    return
+        else:
+            while self.step():
+                ...
+
+    def __str__(self) -> str:
+        (rows, cols) = self.state.shape
+
+        symbols = [" ", "▀", "▄", "█"]
+        game_str: str = "┌" + cols * "─" + "┐\n"
+
+        for r in range(rows // 2):
+            game_str += "│"
+            for c in range(cols):
+                index = int(self.state[r * 2, c] + 2 * self.state[r * 2 + 1, c])
+                game_str += symbols[index]
+            game_str += "│\n"
+
+        if rows % 2 == 1:
+            game_str += "│"
+            for c in range(cols):
+                index = int(self.state[-1, c])
+                game_str += symbols[index]
+            game_str += "│\n"
+
+        game_str += "└" + cols * "─" + "┘\n"
+        return game_str

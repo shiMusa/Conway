@@ -8,6 +8,7 @@ dependencies = [
     "black>=25.12.0",
     "numpy>=2.3.5",
     "pydantic>=2.12.5",
+    "raylib>=5.5.0.4",
 ]
 
 [dependency-groups]

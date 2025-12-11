@@ -1,1 +1,1 @@
-cd .. && uv run black src tests
+cd .. && uv run black src tests main.py
