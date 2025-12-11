@@ -5,28 +5,15 @@ import numpy as np
 def simulation_step(flip: np.ndarray, flop: np.ndarray) -> None:
     neighbors = np.zeros_like(flip)
 
-    n_rows = flip.shape[0]
-    n_cols = flip.shape[1]
+    neighbors += np.roll(flip, -1, axis=0)  # bottom neighbors
+    neighbors += np.roll(flip, 1, axis=0)  # top neighbors
+    neighbors += np.roll(flip, -1, axis=1)  # right neighbors
+    neighbors += np.roll(flip, 1, axis=1)  # left neighbors
 
-    i_cols, i_rows = np.meshgrid(
-        np.arange(0, n_cols),
-        np.arange(0, n_rows),
-    )
-
-    i_right = (i_cols + 1) % n_cols
-    i_left = (i_cols - 1) % n_cols
-    i_top = (i_rows - 1) % n_rows
-    i_bottom = (i_rows + 1) % n_rows
-
-    neighbors += flip[i_bottom, i_cols]  # bottom neighbors
-    neighbors += flip[i_top, i_cols]  # top neighbors
-    neighbors += flip[i_rows, i_right]  # right neighbors
-    neighbors += flip[i_rows, i_left]  # left neighbors
-
-    neighbors += flip[i_bottom, i_right]  # bottom right neighbors
-    neighbors += flip[i_bottom, i_left]  # bottom left neighbors
-    neighbors += flip[i_top, i_left]  # top left  neighbors
-    neighbors += flip[i_top, i_right]  # top right neighbors
+    neighbors += np.roll(flip, (-1, -1), axis=(0, 1))  # bottom right neighbors
+    neighbors += np.roll(flip, (-1, 1), axis=(0, 1))  # bottom left neighbors
+    neighbors += np.roll(flip, (1, 1), axis=(0, 1))  # top left  neighbors
+    neighbors += np.roll(flip, (1, -1), axis=(0, 1))  # top right neighbors
 
     # each cell in `flop` now containes the number of neighbors at that site.
     # Conway's Game of Life rules are the following:
@@ -35,6 +22,7 @@ def simulation_step(flip: np.ndarray, flop: np.ndarray) -> None:
     # 3. Live cell with #neighbors > 3 dies
     # 4. Dead cell with #neighbors == 3 comes to life
 
+    flop.fill(0)
     flop[(neighbors < 2) & (flip > 0)] = 0
     flop[((neighbors == 2) | (neighbors == 3)) & (flip > 0)] = 1
     flop[(neighbors > 3) & (flip > 0)] = 0

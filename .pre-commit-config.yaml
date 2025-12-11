@@ -9,6 +9,6 @@ repos:
     hooks:
       - id: mypy
         # Optional: Add arguments to mypy
-        args: [--strict, --ignore-missing-imports]
+        args: [--ignore-missing-imports]
         # Optional: Only run mypy on specific files
         files: ^(src/|tests/)

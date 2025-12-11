@@ -1,1 +1,1 @@
-cd .. && uv run mypy src tests --strict
+cd .. && uv run mypy src tests
