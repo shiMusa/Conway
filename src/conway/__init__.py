@@ -5,5 +5,5 @@ A python implementation.
 
 """
 
-from .core import simulate
+from .core import GameOfLife
 from .console import print_game
