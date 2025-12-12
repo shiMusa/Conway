@@ -7,7 +7,7 @@ as given in the wikipedia article about [Conway's Game of Life](https://en.wikip
 
 import numpy as np
 import pytest
-from src.conway.core import GameOfLife
+from conway.core import GameOfLife
 from tests.conftest import check_all_shifts
 
 

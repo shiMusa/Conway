@@ -1,6 +1,6 @@
 import numpy as np
 from numpy.testing import assert_array_equal
-from src.conway.core import GameOfLife
+from conway.core import GameOfLife
 
 
 def check_all_shifts(

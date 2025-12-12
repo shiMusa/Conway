@@ -1,1 +1,1 @@
-cd .. && uv run mypy -p conway && uv run mypy main.py && uv run mypy tests
+cd .. && uv run mypy -p conway -p tests && uv run mypy main.py

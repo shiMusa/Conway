@@ -1,1 +1,1 @@
-cd .. && uv run pre-commit run
+cd .. && uv run pre-commit run --all-files

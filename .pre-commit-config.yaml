@@ -4,8 +4,15 @@ repos:
     hooks:
       - id: black
         language_version: python3.13
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.19.0
+  - repo: local
     hooks:
       - id: mypy
-        args: ["-p", "conway"]
+        name: mypy (uv)
+        entry: uv run mypy -p conway -p tests
+        language: system
+        pass_filenames: false
+      - id: mypy
+        name: mypy (uv)
+        entry: uv run mypy main.py
+        language: system
+        pass_filenames: false
