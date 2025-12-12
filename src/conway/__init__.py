@@ -3,6 +3,8 @@
 
 A python implementation using numpy.
 
+The repository can be found here: [Conway](https://github.com/shiMusa/Conway)
+
 The game state can either be printed to the console
 ```
 ┌────────────────────────────────────────────────────────────────┐

@@ -1,6 +1,8 @@
 # Conway
 Simulate Conway's Game of Live in Python.
 
+[Repository by Felix Fehse (shiMusa)](https://github.com/shiMusa/Conway)
+
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │  ▄▀ ██▀   ▄   ▄█▀▄█▀▄      █▀ ▄▀▄      ▄▄        ▀ ▀▀ ▀  █  ▀ █│
@@ -24,7 +26,7 @@ Simulate Conway's Game of Live in Python.
 
 The game can either be printed in the console/terminal, or rendered to a native window using [pyray/raylib](https://electronstudio.github.io/raylib-python-cffi/README.html).
 
-Example use is given below, the [interactive html documentation](docs/index.html) can be found under `docs/index.html`.
+Example use is given below, the [interactive html documentation](https://shimusa.github.io/Conway/) can be found under `docs/index.html`.
 
 ## Setup
 
