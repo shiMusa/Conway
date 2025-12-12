@@ -24,7 +24,7 @@ Simulate Conway's Game of Live in Python.
 
 The game can either be printed in the console/terminal, or rendered to a native window using [pyray/raylib](https://electronstudio.github.io/raylib-python-cffi/README.html).
 
-Example use is given below.
+Example use is given below, the [interactive html documentation](docs/index.html) can be found under `docs/index.html`.
 
 ## Setup
 
@@ -76,4 +76,40 @@ uv run main.py --help
 You can use the Raylib rendering with the flag `--raylib`, e.g.
 ```bash
 uv run main.py --grid 256 256 --sleep-ms 32 --max-iter 1000 --raylib
+```
+
+## Development
+
+The module `conway` can be fund under `src/conway/`, the tests are under `tests/`.
+
+These are the typical development commands used:
+
+**black**: python source code formatter, run via  
+```bash
+uv run black .
+```
+or on windows from `scripts/` via the `bat`-script `black`.
+
+**mypy**: python typing tests, run via  
+```bash 
+uv run uv run mypy -p conway -p tests
+uv run mypy main.py
+```
+or on windows from `scripts/` via the `bat`-script `mypy`.
+
+**pytest**: python testing harness, run via
+```bash 
+uv run pytest
+```
+or on windows from `scripts/` via the `bat`-script `test`.
+
+**pdoc**: python documentation tool, rendering the project and it's docstrings into interactive `html` documents. Run with auto updates via
+```bash 
+uv run pdoc src/conway --docformat google
+```
+or on windows from `scripts/` via the `bat`-script `doc`. 
+
+To build the documentation to the `docs/` folder, run via
+```bash
+uv run pdoc src/conway --docformat google -o ./docs  
 ```
