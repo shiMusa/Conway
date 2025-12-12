@@ -37,10 +37,6 @@ Install dependencies via
 ```bash
 uv sync
 ```
-Install the project itself as a module via
-```bash
-uv pip install --editable .
-```
 
 ### Using [Docker](https://www.docker.com/)
 
