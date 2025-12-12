@@ -10,6 +10,14 @@ def run_with_raylib(
     max_iterations: int | None = None,
     sleep_ms: int | None = None,
 ) -> None:
+    """
+    This function simulates the .core.GameOfLife and displays it in a native window using [pyray/raylib](https://electronstudio.github.io/raylib-python-cffi/README.html).
+
+    Args:
+        game (`.core.GameOfLife`):The initialized game.
+        max_iterations (`int | None`): If given, the maximum number of iterations to run the simulation for. In any case, the simulation will stop when no life cells remain.
+        sleep_ms (`int | None`): The number of milliseconds to sleep between iterations.
+    """
     (rows, cols) = game.state.shape
 
     height = 800
