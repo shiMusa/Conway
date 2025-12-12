@@ -1,9 +1,36 @@
 # Conway
 Simulate Conway's Game of Live in Python.
 
+```
+┌────────────────────────────────────────────────────────────────┐
+│  ▄▀ ██▀   ▄   ▄█▀▄█▀▄      █▀ ▄▀▄      ▄▄        ▀ ▀▀ ▀  █  ▀ █│
+│      ▀  ▄█▀   ▄ ▄▄ ▀ █     █  ▀█▀      ▀▀               ▄▀█▄   │
+│▄ ▄ ▀█▄▀   ▀    ▀▀ ▀█▄▀     ▀▄ ▄        ▄         ▄▄▄▄▄██▀█   ▄▀│
+│   ▄▄▀       ▄█▄ ██ ▀▀   ▄▄   ▀▀      ▀▀▄ ███      ▀█   ▄▄█  ▀▄ │
+│▀▀█     ▄█▀▀▀ ▀ █▄▀█     ▀▀             ▀▀ ▀▀        ▄ ▄ ▀ ▄  ▀█│
+│█▀      ▀█   ▀▀ ▄▄▀      ▄ ▀▄     ▄ ▄     ▀▄▄        ▀▄█▄▀█▀ ▄▄▀│
+│         ▀▄▄█  █▀       ▄█▄  ▀▄  █  ▀       ▄  █▄ ▄▄  ▀▀▄▄   █▀▀│
+│   ▄▄█▄     ▀▄         ▀▄█▄▄▀   █▀ █   ▄█   ▀  ▀▄█▀█   ▄█▄ ▀█   │
+│ ▀█ ██ ▄     ▄▀          ▀▀ ▀  ▀▄▀     ▀█▄    ▀▀    ▄▄██▀▀▀▀ ▀▄ │
+│   ▀               ▄▀▄     █             ▀ ▄▀▀█     ▀      ▀▄▄▄▀│
+│                 ▄ █  █▄          ▄ ▄      ▀   ▄                │
+│ ▄ ▄ ▄          ▀▄▄  █▀▀           ▀███▄     ▄ ▄                │
+│ ▀  ▀▀▄          ▀        ▄ ▄       █ ▄▀▀         ▄▄          ██│
+│██▀▀▀█▄          █ ▀▄   ██   ▀▄      ██▄        ▄█ ▄█         ▀▀│
+│▀▀ ▄▄▀▄          █      ▄    ▀▄████▄   ▀█▄▄     ▀█ █▄▄▄▄▄▄▄▄ █▀▀│
+│ █ █▄██        ▄▀▀ ▄    ▀ █  ▀▄▄   ▀     ▀▀      ▀▄   ▄ █ █ ▀█▄ │
+└────────────────────────────────────────────────────────────────┘
+```
+
+The game can either be printed in the console/terminal, or rendered to a native window using [pyray/raylib](https://electronstudio.github.io/raylib-python-cffi/README.html).
+
+Example use is given below.
+
 ## Setup
 
-### Using `uv` package manager
+### Using uv package manager
+If not already installed, [install uv](https://github.com/astral-sh/uv#installation) for your system.
+
 Install dependencies via 
 ```bash
 uv sync
@@ -13,12 +40,10 @@ Install the project itself as a module via
 uv pip install --editable .
 ```
 
-Run code via
-```bash
-uv run experiments.py
-```
-
 ### Using [Docker](https://www.docker.com/)
+
+> [!WARNING] 
+> You might not be able to use the raylib native window renderin using Docker!
 
 Build Docker image via
 ```bash
@@ -30,11 +55,25 @@ Run Docker image and access bash shell
 docker run -it conway /bin/bash
 ```
 
-You can now run the code via
+## Example
+
+The provided `main.py` program will randomly generate an initial state of the game and simulate it's evolution.
+
+For the first time, it's suggested to run with the following arguments:
 ```bash
-uv run experiments.py
+uv run main.py --grid 64 32 --sleep-ms 500 --max-iter 10
+```
+It will
+- `-g 64 321`: generate a game with 64x32 cells,
+- `-s 500`: sleep between iteration for 500 ms,
+- `-i 10`: run for 10 iterations and then stop.
+
+You can get help on the commands via
+```bash
+uv run main.py --help
 ```
 
-## Development
-
-...todo...
+You can use the Raylib rendering with the flag `--raylib`, e.g.
+```bash
+uv run main.py --grid 256 256 --sleep-ms 32 --max-iter 1000 --raylib
+```

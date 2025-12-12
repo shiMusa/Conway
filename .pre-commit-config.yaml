@@ -1,14 +1,11 @@
 repos:
   - repo: https://github.com/psf/black
-    rev: 25.12.0  # Use the latest stable version
+    rev: 25.12.0
     hooks:
       - id: black
-        language_version: python3.13  # Match your Python version
+        language_version: python3.13
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.19.0  # Use the latest mypy version
+    rev: v1.19.0
     hooks:
       - id: mypy
-        # Optional: Add arguments to mypy
-        args: [--ignore-missing-imports]
-        # Optional: Only run mypy on specific files
-        files: ^(src/|tests/)
+        args: ["-p", "conway"]

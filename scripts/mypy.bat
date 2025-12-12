@@ -1,1 +1,1 @@
-cd .. && uv run mypy src tests
+cd .. && uv run mypy -p conway && uv run mypy main.py && uv run mypy tests
