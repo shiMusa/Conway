@@ -7,7 +7,37 @@ as given in the wikipedia article about [Conway's Game of Life](https://en.wikip
 
 import numpy as np
 import pytest
+from conway.core import GameOfLife
 from tests.conftest import check_all_shifts
+
+
+def test_exception_on_wrong_dimensions():
+    with pytest.raises(ValueError) as info:
+        start = np.zeros((5))
+        GameOfLife(start)
+    print(f"\nException message: \n{info.value}")
+
+    with pytest.raises(ValueError) as info:
+        start = np.zeros((5, 6, 7))
+        GameOfLife(start)
+    print(f"\nException message: \n{info.value}")
+
+
+def test_exception_on_wrong_values():
+    with pytest.raises(ValueError) as info:
+        start = np.array([[0, 1], [1, 2]])
+        GameOfLife(start)
+    print(f"\nException message: \n{info.value}")
+
+    with pytest.raises(ValueError) as info:
+        start = np.array([[0, 1], [1, -1]])
+        GameOfLife(start)
+    print(f"\nException message: \n{info.value}")
+
+    with pytest.raises(ValueError) as info:
+        start = np.array([[0, 1], [1, 0.25]])
+        GameOfLife(start)
+    print(f"\nException message: \n{info.value}")
 
 
 @pytest.mark.parametrize(

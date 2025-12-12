@@ -13,7 +13,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "conway",
     "mypy>=1.19.0",
     "pdoc>=16.0.0",
     "pre-commit>=4.5.0",
@@ -21,8 +20,13 @@ dev = [
 ]
 
 [tool.mypy]
+mypy_path = "src"
 namespace_packages = true
 explicit_package_bases = true
 
-[tool.uv.sources]
-conway = { workspace = true }
+[tool.hatch.build.targets.wheel]
+packages = ["src/conway"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

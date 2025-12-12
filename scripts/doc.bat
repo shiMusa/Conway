@@ -1,1 +1,1 @@
-cd .. && uv run pdoc src/conway
+cd .. && uv run pdoc src/conway --docformat google
