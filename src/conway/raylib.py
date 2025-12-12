@@ -1,25 +1,34 @@
+from time import sleep
 import numpy as np
 import pyray as pr
-from raylib import FLAG_WINDOW_RESIZABLE
+from raylib import FLAG_WINDOW_RESIZABLE, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8
 from .core import GameOfLife
 
 
-def _state_to_img(state: np.ndarray, img: pr.Image):
-    pr.image_clear_background(img, pr.WHITE)
-    (life_cells_row, life_cell_col) = np.where(state == 1)
-    for r, c in zip(life_cells_row, life_cell_col):
-        pr.image_draw_pixel(img, c, r, pr.BLACK)
+def run_with_raylib(
+    game: GameOfLife,
+    max_iterations: int | None = None,
+    sleep_ms: int | None = None,
+) -> None:
+    (rows, cols) = game.state.shape
 
-
-def run_with_raylib(game: GameOfLife) -> None:
-    width, height = 800, 800
-    (cells_y, cells_x) = game.state.shape
+    height = 800
+    width = int(height / rows * cols)
 
     pr.set_config_flags(FLAG_WINDOW_RESIZABLE)
     pr.init_window(width, height, "Conway's Game of Life")
 
-    img = pr.gen_image_color(cells_x, cells_y, pr.WHITE)
+    img = pr.gen_image_color(cols, rows, pr.WHITE)
+    pr.image_format(img, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8)
+
     tex = pr.load_texture_from_image(img)
+
+    CHANNELS = 4
+    num_bytes = cols * rows * CHANNELS
+    byte_buffer = pr.ffi.buffer(img.data, num_bytes)
+    np_pixels = np.frombuffer(byte_buffer, dtype=np.uint8).reshape(
+        (rows, cols, CHANNELS)
+    )
 
     iter = 0
     while not pr.window_should_close():
@@ -27,14 +36,20 @@ def run_with_raylib(game: GameOfLife) -> None:
         width = pr.get_screen_width()
         height = pr.get_screen_height()
 
-        game.step()
-        _state_to_img(game.state, img)
-        pr.update_texture(tex, img.data)
+        if not max_iterations or (max_iterations and iter < max_iterations):
+            game.step()
+
+            np_pixels[:, :, :] = [255, 255, 255, 255]
+            np_pixels[game.state == 1] = [0, 0, 0, 255]
+            pr.update_texture(tex, img.data)
+
+            if sleep_ms:
+                sleep(0.001 * sleep_ms)
 
         pr.begin_drawing()
         pr.clear_background(pr.WHITE)
         pr.draw_texture_pro(
-            tex, (0, 0, cells_x, cells_y), (0, 0, width, height), (0, 0), 0, pr.WHITE
+            tex, (0, 0, cols, rows), (0, 0, width, height), (0, 0), 0, pr.WHITE
         )
         pr.end_drawing()
 
